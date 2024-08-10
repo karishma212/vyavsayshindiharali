@@ -1,0 +1,151 @@
+<!DOCTYPE html>
+<html lang="mr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>व्यवसाय ना-हरकत स्वयांघोषणापत्र</title>
+    <style>
+        body {
+            font-family: 'Arial', sans-serif;
+            background-color: #f8f9fa;
+            margin: 0;
+            padding: 0;
+        }
+        .container {
+            max-width: 600px;
+            margin: 50px auto;
+            padding: 20px;
+            background-color: #fff;
+            box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+            border-radius: 8px;
+        }
+        h1, h2 {
+            text-align: center;
+            color: #343a40;
+        }
+        form {
+            display: flex;
+            flex-direction: column;
+        }
+        label {
+            margin: 10px 0 5px;
+            font-weight: bold;
+        }
+        input[type="text"], input[type="number"], input[type="date"], input[type="file"], textarea {
+            padding: 10px;
+            border: 1px solid #ced4da;
+            border-radius: 4px;
+            font-size: 16px;
+        }
+        textarea {
+            resize: vertical;
+        }
+        button {
+            padding: 10px;
+            background-color: #007bff;
+            color: #fff;
+            border: none;
+            border-radius: 4px;
+            font-size: 18px;
+            cursor: pointer;
+            margin-top: 20px;
+        }
+        button:hover {
+            background-color: #0056b3;
+        }
+    </style>
+</head>
+<body onload="loadData()">
+    <div class="container">
+        <h2>व्यवसाय ना-हरकत स्वयांघोषणापत्र</h2>
+        <form id="submit-to-google-sheet">
+            <label for="applicantName">मी श्री./श्रीम.:</label>
+            <input type="text" id="applicantName" name="applicantName" required>
+
+            <label for="fatherName">श्री./श्रीम.:</label>
+            <input type="text" id="fatherName" name="fatherName" required>
+
+            <label for="age">वय:</label>
+            <input type="number" id="age" name="age" required>
+
+            <label for="aadharNumber">आधार कार्ड क्रमांक (असल्यास):</label>
+            <input type="text" id="aadharNumber" name="aadharNumber">
+
+            <label for="occupation">व्यवसाय:</label>
+            <input type="text" id="occupation" name="occupation" required>
+
+            <label for="address">राहणार:</label>
+            <input type="text" id="address" name="address" required>
+
+            <label for="taluka">ता.:</label>
+            <input type="text" id="taluka" name="taluka" required>
+
+            <label for="district">जि.:</label>
+            <input type="text" id="district" name="district" required>
+
+            <label for="vyavsay">नवीन व्यवसाय:</label>
+            <input type="text" id="vyavsay" name="vyavsay" required>
+
+            <label for="village">ग्रामपंचायत:</label>
+            <input type="text" id="village" name="village" required>
+
+            <label for="plotNumber">गट/नंबर:</label>
+            <input type="text" id="plotNumber" name="plotNumber" required>
+
+            <label for="tq">ता.:</label>
+            <input type="text" id="tq" name="tq" required>
+
+            <label for="dist">जि.:</label>
+            <input type="text" id="dist" name="dist" required>
+
+            <button type="submit">Submit</button>
+        </form>
+    </div>
+    <script>
+        function loadData() {
+            const urlParams = new URLSearchParams(window.location.search);
+
+            document.getElementById('applicantName').value = urlParams.get('applicantName') || '';
+            document.getElementById('fatherName').value = urlParams.get('fatherName') || '';
+            document.getElementById('age').value = urlParams.get('age') || '';
+            document.getElementById('aadharNumber').value = urlParams.get('aadharNumber') || '';
+            document.getElementById('occupation').value = urlParams.get('occupation') || '';
+            document.getElementById('address').value = urlParams.get('address') || '';
+            document.getElementById('taluka').value = urlParams.get('taluka') || '';
+            document.getElementById('district').value = urlParams.get('district') || '';
+            document.getElementById('vyavsay').value = urlParams.get('vyavsay') || '';
+            document.getElementById('village').value = urlParams.get('village') || '';
+            document.getElementById('plotNumber').value = urlParams.get('plotNumber') || '';
+            document.getElementById('tq').value = urlParams.get('tq') || '';
+            document.getElementById('dist').value = urlParams.get('dist') || '';
+        }
+
+        const scriptURL = 'https://script.google.com/macros/s/AKfycbzKcEUHQ9toeMJUp-p7xDjLIeDZbm2PBC04TpgJA16A4KWYRpiwC_AjI9jXvaHtZgtL0g/exec';
+        const form = document.getElementById('submit-to-google-sheet');
+
+        form.addEventListener('submit', e => {
+            e.preventDefault();
+            const formData = new FormData(form);
+
+            fetch(scriptURL, {
+                    method: 'POST',
+                    body: new URLSearchParams(formData)
+                })
+                .then(response => response.json())
+                .then(data => {
+                    if (data.status === 'Success') {
+                        alert('फॉर्म यशस्वीपणे सबमिट केला गेला आहे.');
+                        window.location.href = 'index.html';
+                    } else {
+                        alert('फॉर्म सबमिट करण्यात त्रुटी: ' + data.message);
+                    }
+                })
+                /*.catch(error => {
+                    alert('फॉर्म सबमिट करण्यात त्रुटी: ' + error.message);
+                });*/
+        });
+    </script>
+</body>
+</html>
+
+   
